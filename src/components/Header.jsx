@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import "./styles/header.scss";
+import { IoMenu } from "react-icons/io5";
+import { IoMdClose } from "react-icons/io";
 
-// ✅ Reusable dropdown component
 const DropdownGrid = ({ label, options }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(label);
@@ -21,7 +23,12 @@ const DropdownGrid = ({ label, options }) => {
           viewBox="0 0 24 24"
           stroke="currentColor"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
 
@@ -48,19 +55,40 @@ const DropdownGrid = ({ label, options }) => {
 };
 
 const Header = () => {
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+
   return (
-    <div className="max-w-8xl px-4 sm:px-6 lg:px-6 pt-4">
-      <header className="flex sm:flex-row justify-between items-center py-6 space-y-4 sm:space-y-0">
-        <nav className="flex justify-between gap-30 mx-auto">
+    <div className="header-container">
+      <header className="header-wrapper">
+        <div className="menu-container">
+          <div
+            className={`icon-wrapper ${isSideMenuOpen ? "fade-in" : "fade-in"}`}
+          >
+            {isSideMenuOpen ? (
+              <IoMdClose
+                className="icon text-3xl cursor-pointer"
+                onClick={() => setIsSideMenuOpen(false)}
+              />
+            ) : (
+              <IoMenu
+                className="icon text-3xl cursor-pointer"
+                onClick={() => setIsSideMenuOpen(true)}
+              />
+            )}
+          </div>
+        </div>
+
+        <nav className={`header-nav ${isSideMenuOpen ? "open" : ""}`}>
           <h1 className="logo text-5xl sm:text-4xl font-bold">Mira</h1>
-          <div className="flex font-semibold gap-4">
+
+          <div className="nav-links font-semibold">
             <DropdownGrid
-              img={'image'}
+              img={"image"}
               label="Products"
-              options={["Retail", "Restaurant", "Hardware"]}        
+              options={["Retail", "Restaurant", "Hardware"]}
             />
             <DropdownGrid
-              label="Business type" 
+              label="Business type"
               options={[
                 "Fashion & apparel",
                 "Quick service restaurant",
@@ -69,12 +97,25 @@ const Header = () => {
                 "Pharmacy",
               ]}
             />
-            <Link to="/pricing" className="cursor-pointer text-lg px-2 py-3">Pricing</Link>
-            <Link  to="/blog" className="cursor-pointer text-lg px-2 py-3">Blog</Link>
+            <Link
+              to="/pricing"
+              className="nav-link text-lg px-2 py-3 cursor-pointer"
+            >
+              Pricing
+            </Link>
+            <Link
+              to="/blog"
+              className="nav-link text-lg px-2 py-3 cursor-pointer"
+            >
+              Blog
+            </Link>
           </div>
-          <div className="">
-            <button className="text-lg mx-2 cursor-pointer font-semibold">Login</button>
-            <button className="text-lg bg-black text-white py-2 px-4 rounded-lg cursor-pointer font-semibold mr-3">
+
+          <div className="auth-buttons">
+            <button className="text-lg cursor-pointer font-semibold py-2 px-4 rounded-lg ">
+              Login
+            </button>
+            <button className="text-lg bg-black text-white py-2 px-4 rounded-lg cursor-pointer font-semibold">
               Sign up
             </button>
           </div>
